@@ -37,7 +37,7 @@ dependencies {
 	compile 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
 
-	runtime 'com.fasterxml.jackson.core:jackson-databind:2.1.5'
+	// runtime 'com.fasterxml.jackson.core:jackson-databind:2.1.5'
 }
 
 jar

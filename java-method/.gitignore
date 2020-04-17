@@ -6,6 +6,10 @@ bin/
 !**/src/main/**
 !**/src/test/**
 
+*.jar
+*.config
+*.log
+
 ### STS ###
 .apt_generated
 .classpath
