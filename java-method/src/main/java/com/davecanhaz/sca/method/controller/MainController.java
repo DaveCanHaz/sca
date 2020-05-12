@@ -7,8 +7,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.davecanhaz.sca.method.types.Person;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonParser;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +22,11 @@ public class MainController {
     // CVE-2018-11307
     // CVE-2018-7489
     // https://medium.com/@cowtowncoder/on-jackson-cves-dont-panic-here-is-what-you-need-to-know-54cd0d6e8062
+    // https://github.com/rcseacord/JavaSCR/blob/master/JavaSCR/src/main/java/jackson/TemplatesUtil.java
+    // https://github.com/mbechler/marshalsec
+    // file:///C:/Users/dave/Downloads/Jackson_Deserialization.pdf
+    // https://owasp.org/www-pdf-archive/Marshaller_Deserialization_Attacks.pdf.pdf
+    // https://github.com/no-sec-marko/java-web-vulnerabilities
 
     // CVE-2016-1000027
 
@@ -33,6 +38,7 @@ public class MainController {
 
         final Map<String, String> model = new HashMap<>();
         model.put("hello", "world");
+        
 
         return new ModelAndView("hi", model);
 
@@ -51,10 +57,11 @@ public class MainController {
 
             // ObjectMapper mapper = new ObjectMapper();
             // Person person = mapper.readValue(inJson, Person.class);  
-            final Object person = convertToJson(inJson, Person.class);
+            System.out.println(inJson);
+            Object person = unmarshal(inJson);
 
             System.out.println(person);
-            return "Success!";
+            return "Success! - " + person.toString();
         } catch(final Exception ex) {
             ex.printStackTrace();
             response.setStatus( HttpServletResponse.SC_BAD_REQUEST);
@@ -63,9 +70,11 @@ public class MainController {
 
     }
 
-    private static Object convertToJson(final String json, final Class<?> objectType) throws IOException {
-        final ObjectMapper mapper = new ObjectMapper();
+    private Object unmarshal(String json) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
         mapper.enableDefaultTyping();
-        return mapper.readValue(json, objectType);
+        mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+
+        return mapper.readValue(json, Object.class);
     }
 }

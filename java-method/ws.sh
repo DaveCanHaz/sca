@@ -1,0 +1,1 @@
+java -jar ../../wss-unified-agent-20.3.2.jar -appPath build/libs/java-method-0.0.1-SNAPSHOT.jar -d .

@@ -1,0 +1,9 @@
+["com.davecanhaz.sca.method.types.Person" ,{
+    "name": "Steve",
+    "age": 28,
+    "phone": {
+        "@class": "com.davecanhaz.sca.method.types.DomesticNumber",
+        "areaCode": 555,
+        "local": 1234567
+    }
+}]
